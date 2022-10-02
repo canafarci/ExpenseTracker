@@ -1,7 +1,7 @@
 import axios from "axios";
+import { Keys } from "../constants/keys";
 
-const BACKEND_URL =
-  "https://expense-tracker-app-f16fa-default-rtdb.europe-west1.firebasedatabase.app/";
+const BACKEND_URL = Keys.BACKEND_URL;
 
 export async function storeExpense(expenseData) {
   const respose = await axios.post(BACKEND_URL + "/expenses.json", expenseData);
