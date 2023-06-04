@@ -3,7 +3,7 @@ import { useState } from "react";
 import Input from "./Input";
 import Button from "../UI/Button";
 import { getFormattedDate } from "../../util/date";
-import DatePicker from "react-native-date-picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
   const [modalDate, setModalDate] = useState(new Date());
@@ -23,6 +23,11 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
       isValid: true,
     },
   });
+
+  const onDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setModalDate(currentDate);
+  };
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputs((curInputs) => {
@@ -98,16 +103,15 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
   }
 
   if (settingDate) {
-    console.log(modalDate);
     return (
       <View style={styles.dateContainer}>
-        <DatePicker
-          date={modalDate}
-          onDateChange={setModalDate}
-          mode="date"
-          textColor="maroon"
-          locale="en_GB"
-          timeZoneOffsetInMinutes={60}
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={modalDate}
+          mode={"date"}
+          is24Hour={true}
+          onChange={onDateChange}
+          display="spinner"
         />
         <View style={styles.setButton}>
           <Button onPress={dateButtonHandler}>Set Date</Button>

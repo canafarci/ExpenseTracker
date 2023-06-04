@@ -1,8 +1,6 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 import { useState } from "react";
-import DatePicker from "react-native-date-picker";
-import { getFormattedDate } from "../../util/date";
 
 function Input({ label, textInputConfig, style, invalid }) {
   const inputStyles = [styles.input];
