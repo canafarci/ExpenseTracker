@@ -1,16 +1,28 @@
 import axios from "axios";
 import { Keys } from "../constants/keys";
+import { getAuth, getIdToken } from "firebase/auth";
 
 const BACKEND_URL = Keys.BACKEND_URL;
 
 export async function storeExpense(expenseData) {
-  const respose = await axios.post(BACKEND_URL + "/expenses.json", expenseData);
+  const user = getAuth().currentUser;
+  const idToken = await getIdToken(user, true);
+
+  const respose = await axios.post(
+    BACKEND_URL + "/expenses.json?auth=" + idToken,
+    expenseData
+  );
   const id = respose.data.name;
   return id;
 }
 
 export async function fetchExpenses() {
-  const response = await axios.get(BACKEND_URL + "/expenses.json");
+  const user = getAuth().currentUser;
+  const idToken = await getIdToken(user, true);
+
+  const response = await axios.get(
+    BACKEND_URL + "/expenses.json?auth=" + idToken
+  );
 
   const expenses = [];
 
@@ -28,10 +40,17 @@ export async function fetchExpenses() {
   return expenses;
 }
 
-export function updateExpense(id, expenseData) {
-  return axios.put(BACKEND_URL + `/expenses/${id}.json`, expenseData);
+export async function updateExpense(id, expenseData) {
+  const user = getAuth().currentUser;
+  const idToken = await getIdToken(user, true);
+  return axios.put(
+    BACKEND_URL + `/expenses/${id}.json?auth=${idToken}`,
+    expenseData
+  );
 }
 
-export function deleteExpense(id) {
-  return axios.delete(BACKEND_URL + `/expenses/${id}.json`);
+export async function deleteExpense(id) {
+  const user = getAuth().currentUser;
+  const idToken = await getIdToken(user, true);
+  return axios.delete(BACKEND_URL + `/expenses/${id}.json?auth=${idToken}`);
 }
