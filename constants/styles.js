@@ -1,6 +1,6 @@
 export const GlobalStyles = {
   colors: {
-    header: "lightgray",
+    header: "#ede9d0",
     bottomTabColor: "lightgray",
     headerFont: "dimgray",
     subheader: "",
