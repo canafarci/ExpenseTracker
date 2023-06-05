@@ -74,4 +74,5 @@ web-build/
 dist/
 
 # @end expo-cli
+/firebaseConfig.js
 firebaseConfig.js
