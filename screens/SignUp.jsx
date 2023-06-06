@@ -17,18 +17,22 @@ function SignUpScreen({ navigation }) {
   const [value, setValue] = React.useState({
     email: "",
     password: "",
+    passwordConfirm: "",
     error: "",
   });
 
   async function signUp() {
-    if (value.email === "" || value.password === "") {
-      setValue({
-        ...value,
-        error: "Email and password are mandatory.",
-      });
+    if (
+      value.email === "" ||
+      value.password === "" ||
+      value.passwordConfirm === ""
+    ) {
       Alert.alert("Error", "Email and password are mandatory.", [
         { text: "OK" },
       ]);
+      return;
+    } else if (value.password !== value.passwordConfirm) {
+      Alert.alert("Error", "Passwords does not match.", [{ text: "OK" }]);
       return;
     }
 
@@ -64,6 +68,17 @@ function SignUpScreen({ navigation }) {
               placeholder="Password"
               style={styles.textInput}
               onChangeText={(text) => setValue({ ...value, password: text })}
+              secureTextEntry={true}
+            />
+          </View>
+          <View style={styles.input}>
+            <Icon style={styles.icon} name="lock" size={18} color="gray" />
+            <TextInput
+              placeholder="Confirm Password"
+              style={styles.textInput}
+              onChangeText={(text) =>
+                setValue({ ...value, passwordConfirm: text })
+              }
               secureTextEntry={true}
             />
           </View>
@@ -119,6 +134,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
     width: "80%",
+    flexDirection: "column",
   },
   input: {
     flexDirection: "row",
